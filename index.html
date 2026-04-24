@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IronFit | Unleash Your Strength</title>
+  <meta name="description" content="IronFit is a high-performance gym with elite coaching, aggressive workouts, and results-driven training programs.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <a class="brand" href="#hero" aria-label="IronFit home">IronFit</a>
+      <button id="menuToggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="siteNav">
+        Menu
+      </button>
+      <nav id="siteNav" class="site-nav" aria-label="Primary navigation">
+        <a href="#hero">Home</a>
+        <a href="#plans">Plans</a>
+        <a href="#trainers">Trainers</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#join">Join Now</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="hero">
+      <div class="hero-video-placeholder" aria-hidden="true">
+        <div class="video-overlay"></div>
+      </div>
+      <div class="container hero-content hero-absolute">
+        <p class="eyebrow">Built to Dominate</p>
+        <h1>Train Hard at IronFit</h1>
+        <p class="hero-text">
+          Push your limits with elite trainers, high-intensity classes, and a community
+          that never quits.
+        </p>
+        <a class="cta-button" href="#join">Start Your Journey</a>
+      </div>
+    </section>
+
+    <section id="plans" class="section">
+      <div class="container">
+        <h2>Membership Plans</h2>
+        <div class="menu-grid">
+          <article class="menu-item">
+            <h3>Starter Plan</h3>
+            <p>Gym floor access, locker room, and one fitness assessment.</p>
+            <span>$29/month</span>
+          </article>
+          <article class="menu-item">
+            <h3>Pro Plan</h3>
+            <p>All classes, strength zone, and nutrition guidance included.</p>
+            <span>$59/month</span>
+          </article>
+          <article class="menu-item">
+            <h3>Elite Plan</h3>
+            <p>1:1 personal training, custom programming, and priority support.</p>
+            <span>$99/month</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="trainers" class="section about">
+      <div class="container about-content">
+        <div>
+          <h2>Meet Our Trainers</h2>
+          <div class="trainer-grid">
+            <article class="about-card"><p><strong>Aiden Ross</strong><br>Strength & Conditioning</p></article>
+            <article class="about-card"><p><strong>Mia Carter</strong><br>HIIT & Fat Loss</p></article>
+            <article class="about-card"><p><strong>Noah Blake</strong><br>Powerlifting Coach</p></article>
+            <article class="about-card"><p><strong>Zoe Miles</strong><br>Mobility & Recovery</p></article>
+          </div>
+        </div>
+        <div class="about-card class-schedule-card" id="schedule">
+          <h3>Class Schedule</h3>
+          <table class="schedule-table">
+            <thead><tr><th>Day</th><th>Class</th><th>Time</th></tr></thead>
+            <tbody>
+              <tr><td>Mon</td><td>HIIT Blast</td><td>6:00 AM</td></tr>
+              <tr><td>Tue</td><td>Strength Lab</td><td>7:00 PM</td></tr>
+              <tr><td>Wed</td><td>Core Combat</td><td>6:30 AM</td></tr>
+              <tr><td>Thu</td><td>Power Circuit</td><td>7:30 PM</td></tr>
+              <tr><td>Fri</td><td>Athletic Conditioning</td><td>6:00 PM</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="section">
+      <div class="container contact-content">
+        <h2>Transformation Gallery</h2>
+        <p>Real progress from real IronFit members.</p>
+        <div class="gallery-grid">
+          <img src="https://placehold.co/600x400?text=Before+%2F+After+1" alt="Transformation example one">
+          <img src="https://placehold.co/600x400?text=Before+%2F+After+2" alt="Transformation example two">
+          <img src="https://placehold.co/600x400?text=Before+%2F+After+3" alt="Transformation example three">
+          <img src="https://placehold.co/600x400?text=Before+%2F+After+4" alt="Transformation example four">
+        </div>
+      </div>
+    </section>
+
+    <section id="join" class="section">
+      <div class="container contact-content">
+        <h2>Join Now</h2>
+        <p>Apply now and start transforming your body and mindset.</p>
+        <form id="joinForm" class="contact-form" novalidate data-netlify="true" name="ironfit-join-form">
+          <input type="hidden" name="form-name" value="ironfit-join-form">
+          <div class="field-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" maxlength="80" required>
+            <p id="nameError" class="field-error" role="alert"></p>
+          </div>
+          <div class="field-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" maxlength="120" required>
+            <p id="emailError" class="field-error" role="alert"></p>
+          </div>
+          <div class="field-group">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" maxlength="20" required>
+            <p id="phoneError" class="field-error" role="alert"></p>
+          </div>
+          <div class="field-group">
+            <label for="fitnessGoal">Fitness Goal</label>
+            <input id="fitnessGoal" name="fitnessGoal" type="text" maxlength="120" required>
+            <p id="fitnessGoalError" class="field-error" role="alert"></p>
+          </div>
+          <div class="field-group">
+            <label for="plan">Preferred Plan</label>
+            <select id="plan" name="plan" required>
+              <option value="">Select a plan</option>
+              <option value="Starter Plan">Starter Plan</option>
+              <option value="Pro Plan">Pro Plan</option>
+              <option value="Elite Plan">Elite Plan</option>
+            </select>
+            <p id="planError" class="field-error" role="alert"></p>
+          </div>
+          <button type="submit" class="cta-button">Join IronFit</button>
+          <p id="formStatus" class="form-status" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
