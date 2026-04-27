@@ -58,6 +58,18 @@ async function run() {
     const consoleLogs = [];
     page.on("console", (msg) => consoleLogs.push(`[${msg.type()}] ${msg.text()}`));
     page.on("pageerror", (err) => consoleLogs.push(`[pageerror] ${err.message || String(err)}`));
+    page.on("response", async (res) => {
+      try {
+        const url = res.url();
+        if (!url.includes("/api/admissions")) return;
+        const status = res.status();
+        let body = "";
+        try {
+          body = await res.text();
+        } catch {}
+        consoleLogs.push(`[network] ${status} ${url} ${body.slice(0, 500)}`);
+      } catch {}
+    });
 
     const fail = async (name, err) => {
       try {
@@ -89,7 +101,7 @@ async function run() {
       await page.fill('input[name="student_name"]', "Test Student");
       await page.fill('input[name="date_of_birth"]', "2015-06-10");
       await page.selectOption('select[name="gender"]', "Female");
-      await page.selectOption('select[name="class_applying"]', "Class 3-5");
+      await page.selectOption('select[name="class_applying"]', "Class 3");
       await page.click("text=Continue");
 
       await page.fill('input[name="parent_email"]', "parent@example.com");

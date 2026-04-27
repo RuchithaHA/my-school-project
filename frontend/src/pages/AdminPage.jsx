@@ -439,7 +439,7 @@ export default function AdminPage() {
         </div>
 
         <div className="mt-10 text-xs text-slate-400">
-          Tip: If your frontend is deployed, set `VITE_API_BASE_URL` to your public backend URL. Locally, it defaults to `/api`.
+          Tip: If your frontend is deployed, set `VITE_API_URL` to your public backend URL. Locally, it defaults to `http://localhost:8000`.
         </div>
       </div>
     </div>

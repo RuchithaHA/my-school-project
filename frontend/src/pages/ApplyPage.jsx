@@ -87,9 +87,13 @@ export default function ApplyPage() {
       const res = await api.post("/admissions", form);
       navigate("/thank-you", { state: { ...res.data, student_name: form.student_name } });
     } catch (e) {
+      const detail = e.response?.data?.detail;
       setStatus({
         loading: false,
-        error: e.response?.data?.detail || e.response?.data?.message || "Submission failed. Please try again.",
+        error:
+          (Array.isArray(detail) ? detail.map((d) => d?.msg).filter(Boolean).join(" • ") : detail) ||
+          e.response?.data?.message ||
+          "Submission failed. Please try again.",
       });
       return;
     }
@@ -182,12 +186,19 @@ export default function ApplyPage() {
                     className="rounded-lg border border-white/10 bg-black/20 p-3 outline-none focus:border-[#f6d06f]/60"
                   >
                     <option value="">Select</option>
-                    <option value="Nursery-2">Nursery-2</option>
-                    <option value="Class 3-5">Class 3-5</option>
-                    <option value="Class 6-8">Class 6-8</option>
-                    <option value="Class 9-10">Class 9-10</option>
-                    <option value="Class 11-12 Science">Class 11-12 Science</option>
-                    <option value="Class 11-12 Commerce">Class 11-12 Commerce</option>
+                    <option value="Nursery">Nursery</option>
+                    <option value="LKG">LKG</option>
+                    <option value="UKG">UKG</option>
+                    {Array.from({ length: 10 }).map((_, i) => {
+                      const cls = `Class ${i + 1}`;
+                      return (
+                        <option key={cls} value={cls}>
+                          {cls}
+                        </option>
+                      );
+                    })}
+                    <option value="PUC">PUC</option>
+                    <option value="Engineering">Engineering</option>
                   </select>
                 </Field>
                 <Field label="Previous School">

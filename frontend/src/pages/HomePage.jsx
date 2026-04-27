@@ -124,19 +124,20 @@ const activityData = [
 ];
 
 const feeCards = [
-  { title: "Nursery-2", fee: 40000 },
-  { title: "Class 3-5", fee: 48000 },
-  { title: "Class 6-8", fee: 58000 },
-  { title: "Class 9-10", fee: 68000 },
-  { title: "Class 11-12 Science", fee: 78000 },
-  { title: "Class 11-12 Commerce", fee: 72000 },
+  { title: "Nursery", fee: 40000 },
+  { title: "LKG–UKG", fee: 45000 },
+  { title: "Class 1–5", fee: 52000 },
+  { title: "Class 6–8", fee: 60000 },
+  { title: "Class 9–10", fee: 70000 },
+  { title: "PUC", fee: 82000 },
+  { title: "Engineering (Integrated)", fee: 98000 },
 ];
 
 const timings = [
-  { grade: "Nursery-KG", time: "8:30 AM to 12:30 PM" },
+  { grade: "Nursery–UKG", time: "8:30 AM to 12:30 PM" },
   { grade: "Class 1-5", time: "8:00 AM to 2:30 PM" },
   { grade: "Class 6-10", time: "7:45 AM to 3:30 PM" },
-  { grade: "Class 11-12", time: "7:30 AM to 4:00 PM" },
+  { grade: "PUC & Integrated", time: "7:30 AM to 4:00 PM" },
   { grade: "Saturday (all classes)", time: "8:00 AM to 12:30 PM" },
 ];
 

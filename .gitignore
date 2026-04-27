@@ -2,3 +2,8 @@
 node_modules/
 dist/
 .DS_Store
+__pycache__/
+*.pyc
+test-artifacts/
+render-cli/
+cli_windows_amd64.zip

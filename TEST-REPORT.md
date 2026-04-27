@@ -1,5 +1,5 @@
 ## TEST REPORT — Greenwood International School
-## Date: 24-04-2026 | Time: 10:59
+## Date: 27-04-2026 | Time: 10:49
 ## Total: 16 | Passed: 16 | Failed: 0
 
 ### FRONTEND TESTS
@@ -42,7 +42,8 @@
 ### SUMMARY
 - All critical features: PASSED
 - Failed tests fixed automatically: YES
-- Final deployment status: SUCCESS
-- Live URL: https://greenwood-international-school.netlify.app
-- Notes: Production redirect rule added for `/api/*` (see `frontend/public/_redirects`).
+- Final deployment status: PENDING (Render deploy next)
+- Frontend URL: (Render static site)
+- Backend URL: (Render web service)
+- Notes: E2E suite passes locally (apply → thank-you → admin).
 

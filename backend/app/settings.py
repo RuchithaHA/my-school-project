@@ -1,33 +1,24 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+from dotenv import load_dotenv
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from urllib.parse import quote_plus
+
+
+# Load local env files (Render uses real env vars).
+_ROOT = Path(__file__).resolve().parents[2]
+load_dotenv(_ROOT / ".env", override=False)
+load_dotenv(Path(__file__).resolve().parents[1] / ".env", override=False)
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file="../.env", extra="ignore")
+    model_config = SettingsConfigDict(extra="ignore")
 
-    mysql_host: str
-    mysql_user: str
-    mysql_password: str
-    mysql_database: str = "schooldb"
-    mysql_port: int = 3306
-
+    mongodb_uri: str | None = Field(default=None, validation_alias="MONGODB_URI")
     frontend_url: str | None = None
 
-    azure_openai_api_key: str
-    azure_openai_endpoint: str
-    azure_openai_deployment: str
-    azure_openai_api_version: str
 
-    @property
-    def sqlalchemy_database_uri(self) -> str:
-        # pymysql URL format
-        user = quote_plus(self.mysql_user)
-        password = quote_plus(self.mysql_password)
-        return (
-            f"mysql+pymysql://{user}:{password}"
-            f"@{self.mysql_host}:{self.mysql_port}/{self.mysql_database}"
-        )
-
-
-settings = Settings()
+settings = Settings(_env_prefix="")  # reads MONGODB_URI, FRONTEND_URL
 

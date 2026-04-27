@@ -3,43 +3,24 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 
 import requests
-from openai import AzureOpenAI
-
-from .settings import settings
-
-
-def build_azure_client() -> AzureOpenAI:
-    return AzureOpenAI(
-        api_key=settings.azure_openai_api_key,
-        api_version=settings.azure_openai_api_version,
-        azure_endpoint=settings.azure_openai_endpoint,
-    )
 
 
 def generate_welcome_message(payload: dict) -> str:
-    client = build_azure_client()
-    # No chatbot UI; just a single-shot completion style response.
-    prompt = (
-        "You are Greenwood International School admissions team.\n"
-        "Write a warm, professional, personalized welcome message (80-140 words) for the student.\n"
-        "Include the student's name, class applying, and one supportive line for parents.\n"
-        "Do not mention you are an AI.\n\n"
-        f"Student Name: {payload.get('student_name')}\n"
-        f"Class Applying: {payload.get('class_applying')}\n"
-        f"City: {payload.get('city')}\n"
-        f"Interests/Activities (if any): {payload.get('hear_about_us')}\n"
-    )
+    name = (payload.get("student_name") or "Student").strip()
+    cls = (payload.get("class_applying") or "the program").strip()
+    city = (payload.get("city") or "Bengaluru").strip()
+    note = (payload.get("hear_about_us") or "").strip()
 
-    res = client.chat.completions.create(
-        model=settings.azure_openai_deployment,
-        messages=[
-            {"role": "system", "content": "You write short admissions welcome messages."},
-            {"role": "user", "content": prompt},
-        ],
-        temperature=0.7,
-        max_tokens=220,
+    extra = f" We’re excited to hear you’re interested in {note.lower()}." if note else ""
+    return (
+        f"Dear {name},\n\n"
+        f"Welcome to Greenwood International School! Thank you for applying for {cls}. "
+        f"Our team in {city} has received your application and will review it shortly.{extra}\n\n"
+        "To parents/guardians: thank you for trusting Greenwood—our admissions team will contact you soon with next steps.\n\n"
+        "Warm regards,\n"
+        "Admissions Team\n"
+        "Greenwood International School"
     )
-    return (res.choices[0].message.content or "").strip()
 
 
 WEATHER_TTL = timedelta(minutes=30)

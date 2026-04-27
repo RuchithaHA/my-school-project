@@ -3,28 +3,28 @@ from __future__ import annotations
 from datetime import date, datetime
 from typing import Literal
 
-from pydantic import BaseModel, EmailStr, Field, field_validator
+from pydantic import AliasChoices, BaseModel, EmailStr, Field, field_validator
 
 
 class AdmissionCreate(BaseModel):
-    student_name: str = Field(min_length=2, max_length=120)
-    date_of_birth: date
+    student_name: str = Field(min_length=2, max_length=120, validation_alias=AliasChoices("student_name", "studentName"))
+    date_of_birth: date = Field(validation_alias=AliasChoices("date_of_birth", "dateOfBirth"))
     gender: str = Field(min_length=2, max_length=32)
-    class_applying: str = Field(min_length=1, max_length=64)
-    previous_school: str | None = Field(default=None, max_length=180)
+    class_applying: str = Field(min_length=1, max_length=64, validation_alias=AliasChoices("class_applying", "classApplying"))
+    previous_school: str | None = Field(default=None, max_length=180, validation_alias=AliasChoices("previous_school", "previousSchool"))
 
-    father_name: str | None = Field(default=None, max_length=120)
-    mother_name: str | None = Field(default=None, max_length=120)
-    parent_email: EmailStr
-    parent_phone: str = Field(min_length=7, max_length=40)
-    alternate_phone: str | None = Field(default=None, max_length=40)
-    parent_occupation: str | None = Field(default=None, max_length=120)
+    father_name: str | None = Field(default=None, max_length=120, validation_alias=AliasChoices("father_name", "fatherName"))
+    mother_name: str | None = Field(default=None, max_length=120, validation_alias=AliasChoices("mother_name", "motherName"))
+    parent_email: EmailStr = Field(validation_alias=AliasChoices("parent_email", "parentEmail"))
+    parent_phone: str = Field(min_length=7, max_length=40, validation_alias=AliasChoices("parent_phone", "parentPhone"))
+    alternate_phone: str | None = Field(default=None, max_length=40, validation_alias=AliasChoices("alternate_phone", "alternatePhone"))
+    parent_occupation: str | None = Field(default=None, max_length=120, validation_alias=AliasChoices("parent_occupation", "parentOccupation"))
 
     address: str = Field(min_length=5, max_length=2000)
     city: str = Field(min_length=2, max_length=80)
     pincode: str = Field(min_length=4, max_length=20)
-    medical_conditions: str | None = Field(default=None, max_length=2000)
-    hear_about_us: str | None = Field(default=None, max_length=120)
+    medical_conditions: str | None = Field(default=None, max_length=2000, validation_alias=AliasChoices("medical_conditions", "medicalConditions"))
+    hear_about_us: str | None = Field(default=None, max_length=120, validation_alias=AliasChoices("hear_about_us", "hearAboutUs"))
 
     @field_validator("gender")
     @classmethod
@@ -33,7 +33,7 @@ class AdmissionCreate(BaseModel):
 
 
 class AdmissionOut(BaseModel):
-    id: int
+    id: str
     application_number: str
     student_name: str
     date_of_birth: date
@@ -56,7 +56,7 @@ class AdmissionOut(BaseModel):
     created_at: datetime | None
     updated_at: datetime | None
 
-    model_config = {"from_attributes": True}
+    model_config = {"populate_by_name": True}
 
 
 class AdmissionStatusUpdate(BaseModel):
@@ -64,14 +64,14 @@ class AdmissionStatusUpdate(BaseModel):
 
 
 class SeatsOut(BaseModel):
-    id: int
+    id: str
     class_name: str
     total_seats: int
     seats_booked: int
     seats_available: int
     last_updated: datetime | None
 
-    model_config = {"from_attributes": True}
+    model_config = {"populate_by_name": True}
 
 
 class SeatUpdate(BaseModel):
