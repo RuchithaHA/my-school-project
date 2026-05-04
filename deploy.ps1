@@ -74,6 +74,8 @@ git push -u origin main | Out-Host
 
 Write-Host "Step 4: Deploy backend..."
 Set-Location "$root\backend"
+Write-Host "Link backend project..."
+vercel link --yes | Out-Host
 $backendOutput = vercel --prod --yes 2>&1
 $backendOutput | Out-Host
 $backendUrl = ($backendOutput | Select-String "https://[a-zA-Z0-9\.\-]+").Matches.Value | Select-Object -Last 1
@@ -108,6 +110,8 @@ Set-Content -Path ".env.production" -Value "VITE_API_URL=$backendUrl"
 Get-Content ".env.production" | Out-Host
 
 Write-Host "Step 8: Deploy frontend..."
+Write-Host "Link frontend project..."
+vercel link --yes | Out-Host
 $frontendOutput = vercel --prod --yes 2>&1
 $frontendOutput | Out-Host
 $frontendUrl = ($frontendOutput | Select-String "https://[a-zA-Z0-9\.\-]+").Matches.Value | Select-Object -Last 1
