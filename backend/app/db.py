@@ -1,27 +1,19 @@
 from __future__ import annotations
-
-from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
-
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
+from sqlalchemy.orm import DeclarativeBase
 from .settings import settings
 
-_client: AsyncIOMotorClient | None = None
+engine = create_async_engine(settings.database_url, echo=False)
+AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False)
 
+class Base(DeclarativeBase):
+    pass
 
-def get_client() -> AsyncIOMotorClient:
-    global _client
-    if _client is None:
-        if not settings.mongodb_uri:
-            raise RuntimeError("MONGODB_URI is missing.")
-        _client = AsyncIOMotorClient(settings.mongodb_uri)
-    return _client
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        yield session
 
-
-def get_database() -> AsyncIOMotorDatabase:
-    # Use database name from URI; fallback to "greenwood".
-    client = get_client()
-    try:
-        db = client.get_default_database()
-    except Exception:
-        db = client["greenwood"]
-    return db
-
+async def init_db():
+    async with engine.begin() as conn:
+        from . import models  # noqa
+        await conn.run_sync(Base.metadata.create_all)

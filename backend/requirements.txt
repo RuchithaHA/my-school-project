@@ -1,9 +1,12 @@
 fastapi
 uvicorn[standard]
+sqlalchemy
+aiomysql
+cryptography
 pydantic
 pydantic-settings
-email-validator
 python-dotenv
+openai
 requests
-motor
-pymongo
+python-multipart
+email-validator

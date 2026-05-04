@@ -1,49 +1,78 @@
-## TEST REPORT — Greenwood International School
-## Date: 27-04-2026 | Time: 10:49
-## Total: 16 | Passed: 16 | Failed: 0
+# TEST REPORT — Greenwood International School
 
-### FRONTEND TESTS
-| # | Feature Tested | Status | Notes |
-|---|---|---|---|
-| 1 | Homepage loads correctly | ✅ PASSED | |
-| 2 | Hero section visible | ✅ PASSED | `#hero` rendered |
-| 3 | Main sections render (About → Contact) | ✅ PASSED | All required section anchors present |
-| 4 | Mobile navbar renders | ✅ PASSED | 390×844 viewport |
-| 5 | Weather widget loads (via backend) | ✅ PASSED | No crash when calling `/api/weather` |
-| 6 | Seats section renders | ✅ PASSED | Loads from `/api/seats` |
+## Metadata
 
-### FORM TESTS
-| # | Feature Tested | Status | Notes |
-|---|---|---|---|
-| 1 | Multi-step admission form loads | ✅ PASSED | `/apply` route |
-| 2 | Step progression works | ✅ PASSED | Student → Parents → Address → Review |
-| 3 | Form submits to database API | ✅ PASSED | POST `/api/admissions` |
-| 4 | Thank you page shows after submit | ✅ PASSED | Navigates to `/thank-you` |
+| Field | Value |
+|-------|-------|
+| Project | Greenwood International School |
+| Date | YYYY-MM-DD |
+| Time | HH:MM (local) |
+| Environment | local / staging / production |
+| Tester | Automated / Manual |
 
-### API TESTS
-| # | Feature Tested | Status | Notes |
-|---|---|---|---|
-| 1 | GET `/api/health` responds | ✅ PASSED | |
-| 2 | POST `/api/admissions` responds | ✅ PASSED | Returns application number + welcome message |
-| 3 | GET `/api/seats` responds | ✅ PASSED | |
+## Summary
 
-### ADMIN DASHBOARD TESTS
-| # | Feature Tested | Status | Notes |
-|---|---|---|---|
-| 1 | Admin login works (`admin123`) | ✅ PASSED | Session-based client-side gate |
-| 2 | Admin dashboard renders after login | ✅ PASSED | Shows “Admin Dashboard” heading |
-| 3 | Admin can load admissions/seats/contacts | ✅ PASSED | Backend reachable via proxy |
+| Metric | Count |
+|--------|-------|
+| Total tests | |
+| Passed | |
+| Failed | |
+| Blocked | |
 
-### MOBILE RESPONSIVE TESTS
-| # | Feature Tested | Status | Notes |
-|---|---|---|---|
-| 1 | Homepage on 390px width | ✅ PASSED | No runtime errors |
+---
 
-### SUMMARY
-- All critical features: PASSED
-- Failed tests fixed automatically: YES
-- Final deployment status: PENDING (Render deploy next)
-- Frontend URL: (Render static site)
-- Backend URL: (Render web service)
-- Notes: E2E suite passes locally (apply → thank-you → admin).
+## FRONTEND
 
+| # | Feature tested | Status | Notes |
+|---|----------------|--------|-------|
+| 1 | Home page loads | ⬜ PENDING | |
+| 2 | Navbar navigation | ⬜ PENDING | |
+| 3 | Weather widget | ⬜ PENDING | |
+| 4 | Admission required validation | ⬜ PENDING | |
+| 5 | Email / phone / pincode validation | ⬜ PENDING | |
+| 6 | Admission success modal | ⬜ PENDING | |
+| 7 | API error toast + form retained | ⬜ PENDING | |
+| 8 | Status lookup | ⬜ PENDING | |
+| 9 | Contact form | ⬜ PENDING | |
+| 10 | Admin login | ⬜ PENDING | |
+| 11 | Admin summary + tables | ⬜ PENDING | |
+| 12 | Admin filters | ⬜ PENDING | |
+| 13 | Status change + delete | ⬜ PENDING | |
+| 14 | Mobile layout sanity | ⬜ PENDING | |
+
+**Status column:** replace `⬜ PENDING` with `✅ PASSED` or `❌ FAILED`.
+
+---
+
+## API
+
+| # | Feature tested | Status | Notes |
+|---|----------------|--------|-------|
+| 1 | GET /api/health | ⬜ PENDING | |
+| 2 | POST /api/admissions | ⬜ PENDING | |
+| 3 | GET /api/admissions | ⬜ PENDING | |
+| 4 | GET /api/admissions/lookup/{number} | ⬜ PENDING | |
+| 5 | PUT /api/admissions/{id}/status | ⬜ PENDING | |
+| 6 | DELETE /api/admissions/{id} | ⬜ PENDING | |
+| 7 | GET/PUT /api/seats | ⬜ PENDING | |
+| 8 | POST/GET /api/contacts | ⬜ PENDING | |
+| 9 | GET /api/weather | ⬜ PENDING | |
+
+---
+
+## DATABASE
+
+| # | Feature tested | Status | Notes |
+|---|----------------|--------|-------|
+| 1 | admissions insert | ⬜ PENDING | |
+| 2 | seats decrement on create | ⬜ PENDING | |
+| 3 | seats restore on delete | ⬜ PENDING | |
+| 4 | contacts insert | ⬜ PENDING | |
+
+---
+
+## SUMMARY
+
+- Critical blockers:
+- Follow-up actions:
+- Live URLs (if deployed):

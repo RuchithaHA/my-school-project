@@ -30,6 +30,13 @@ ABSOLUTE RULES - NEVER BREAK THESE:
 - NEVER deploy frontend without working backend
 - ALWAYS use VITE_API_URL environment variable 
   for all API calls in React — never hardcode URLs
+  - NEVER use localhost for database in production
+- ALWAYS use Railway MySQL for cloud database
+- ALWAYS read MySQL credentials from .env file
+- MySQL credentials in .env must be Railway 
+  cloud credentials not localhost
+- Before deploying always verify MYSQL_HOST 
+  is not localhost
 
 FULL STACK CONNECTION RULES (MUST FOLLOW FOR EVERY FUTURE PROJECT):
 - Always create frontend and backend together (never frontend-only).
@@ -45,6 +52,17 @@ FULL STACK CONNECTION RULES (MUST FOLLOW FOR EVERY FUTURE PROJECT):
 You are a senior full stack engineer with 
 10+ years experience in React and MongoDB.
 Every project must be 100% production ready.
+
+When starting any new project, before writing any code, automatically create the following files:
+
+PHASE 1 → PLANNING.md (scope, goals, feasibility, risks, out-of-scope)
+PHASE 2 → SRS.md (functional requirements, non-functional requirements, stakeholder needs)
+PHASE 3 → DESIGN.md (tech stack, architecture, API design, folder structure, wireframe notes)
+PHASE 4 → USER-MANUAL.md + PROJECT-DOCS.md (how to use the app, full project overview)
+PHASE 5 → USE-CASES.md + UAT.md + PERFORMANCE.md (test scenarios, UAT checklist, performance benchmarks)
+PHASE 6 → DEPLOYMENT.md (CI/CD steps, staging URL, production checklist, rollback plan)
+
+Then create code. Never skip document creation.
 
 TECH STACK — USE FOR ALL PROJECTS:
 
@@ -86,7 +104,8 @@ project-name/
 │   └── package.json
 ├── .env
 ├── .gitignore
-└── pipeline files
+└── pipeline files                
+
 
 PHASE 1 — PLAN:
 - Ask clarifying questions first
@@ -118,10 +137,27 @@ PHASE 5 — FIX AUTOMATICALLY:
 - Run all tests again after fixing
 - Never deploy broken code
 
-PHASE 6 — DEPLOY AUTOMATICALLY:
-- Build React: cd frontend && npm run build
-- Deploy frontend/dist to Netlify via MCP
-- Give me the live frontend URL
+PHASE 7 — DEPLOY AUTOMATICALLY:
+
+DEPLOYMENT PLATFORM: Vercel (completely free)
+- Frontend: Vercel (React)
+- Backend: Vercel (Python FastAPI)
+- No credit card needed
+- No manual steps needed
+
+STEPS:
+1. Create backend/vercel.json automatically
+2. Run: vercel --prod --yes in backend folder
+3. Get backend URL from output
+4. Update frontend/.env.production with backend URL
+5. Build frontend: npm run build
+6. Run: vercel --prod --yes in frontend folder
+7. Get frontend URL from output
+8. Test both URLs end to end
+9. Give me both live URLs
+
+NEVER use Render, Railway, or Koyeb
+ALWAYS use Vercel for all deployments
 
 NEVER:
 - Skip any phase

@@ -3,14 +3,16 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 
 import requests
+from openai import AsyncAzureOpenAI
+
+from .settings import settings
 
 
-def generate_welcome_message(payload: dict) -> str:
+def _static_welcome(payload: dict) -> str:
     name = (payload.get("student_name") or "Student").strip()
     cls = (payload.get("class_applying") or "the program").strip()
     city = (payload.get("city") or "Bengaluru").strip()
     note = (payload.get("hear_about_us") or "").strip()
-
     extra = f" We’re excited to hear you’re interested in {note.lower()}." if note else ""
     return (
         f"Dear {name},\n\n"
@@ -21,6 +23,54 @@ def generate_welcome_message(payload: dict) -> str:
         "Admissions Team\n"
         "Greenwood International School"
     )
+
+
+async def generate_welcome_message(payload: dict) -> str:
+    if not (
+        settings.azure_openai_api_key
+        and settings.azure_openai_endpoint
+        and settings.azure_openai_deployment
+        and settings.azure_openai_api_version
+    ):
+        return _static_welcome(payload)
+
+    try:
+        client = AsyncAzureOpenAI(
+            api_key=settings.azure_openai_api_key,
+            api_version=settings.azure_openai_api_version,
+            azure_endpoint=settings.azure_openai_endpoint.rstrip("/"),
+        )
+        name = (payload.get("student_name") or "the student").strip()
+        cls = (payload.get("class_applying") or "the selected class").strip()
+        city = (payload.get("city") or "Bengaluru").strip()
+        completion = await client.chat.completions.create(
+            model=settings.azure_openai_deployment,
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are the admissions assistant for Greenwood International School. "
+                        "Write a short, warm, professional welcome message (max ~120 words) to the family. "
+                        "Address the student by first name when possible. Do not invent policies or guarantees."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        f"Student name: {name}\n"
+                        f"Class applying: {cls}\n"
+                        f"City: {city}\n"
+                        "Generate the welcome message as plain text paragraphs."
+                    ),
+                },
+            ],
+            temperature=0.7,
+            max_tokens=400,
+        )
+        text = (completion.choices[0].message.content or "").strip()
+        return text if text else _static_welcome(payload)
+    except Exception:
+        return _static_welcome(payload)
 
 
 WEATHER_TTL = timedelta(minutes=30)
@@ -58,7 +108,6 @@ def get_bengaluru_weather() -> dict:
     if _weather_cache and _weather_cache["expires_at"] > now:
         return _weather_cache["data"]
 
-    # Bengaluru coords
     url = "https://api.open-meteo.com/v1/forecast"
     params = {
         "latitude": 12.9716,
@@ -71,8 +120,8 @@ def get_bengaluru_weather() -> dict:
     data = r.json()
     current = data.get("current") or {}
 
-    temp = float(current.get("temperature_2m"))
-    code = int(current.get("weather_code"))
+    temp = float(current.get("temperature_2m", 0))
+    code = int(current.get("weather_code", 0))
     out = {
         "temperature_c": temp,
         "description": _wmo_code_to_text(code),
@@ -80,4 +129,3 @@ def get_bengaluru_weather() -> dict:
     }
     _weather_cache = {"expires_at": now + WEATHER_TTL, "data": out}
     return out
-

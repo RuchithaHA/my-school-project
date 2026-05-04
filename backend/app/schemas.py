@@ -13,8 +13,8 @@ class AdmissionCreate(BaseModel):
     class_applying: str = Field(min_length=1, max_length=64, validation_alias=AliasChoices("class_applying", "classApplying"))
     previous_school: str | None = Field(default=None, max_length=180, validation_alias=AliasChoices("previous_school", "previousSchool"))
 
-    father_name: str | None = Field(default=None, max_length=120, validation_alias=AliasChoices("father_name", "fatherName"))
-    mother_name: str | None = Field(default=None, max_length=120, validation_alias=AliasChoices("mother_name", "motherName"))
+    father_name: str = Field(min_length=1, max_length=120, validation_alias=AliasChoices("father_name", "fatherName"))
+    mother_name: str = Field(min_length=1, max_length=120, validation_alias=AliasChoices("mother_name", "motherName"))
     parent_email: EmailStr = Field(validation_alias=AliasChoices("parent_email", "parentEmail"))
     parent_phone: str = Field(min_length=7, max_length=40, validation_alias=AliasChoices("parent_phone", "parentPhone"))
     alternate_phone: str | None = Field(default=None, max_length=40, validation_alias=AliasChoices("alternate_phone", "alternatePhone"))
@@ -88,4 +88,3 @@ class WeatherOut(BaseModel):
     temperature_c: float
     description: str
     fetched_at: datetime
-

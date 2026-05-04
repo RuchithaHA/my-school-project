@@ -30,3 +30,10 @@ STEP 15: Give me the live URL
 
 I should receive the live Netlify URL.
 Nothing else needed from me.
+
+STEP 13: Run deploy.ps1 automatically:
+         powershell -File deploy.ps1
+STEP 14: Get both URLs from script output
+STEP 15: Run Playwright on live URLs
+STEP 16: Update TEST-REPORT.md
+STEP 17: Give me both live URLs
