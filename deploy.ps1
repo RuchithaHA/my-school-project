@@ -74,7 +74,7 @@ git push -u origin main | Out-Host
 
 Write-Host "Step 4: Deploy backend..."
 Set-Location "$root\backend"
-$backendOutput = vercel --prod --yes --name $BackendName 2>&1
+$backendOutput = vercel --prod --yes 2>&1
 $backendOutput | Out-Host
 $backendUrl = ($backendOutput | Select-String "https://[a-zA-Z0-9\.\-]+").Matches.Value | Select-Object -Last 1
 if ([string]::IsNullOrWhiteSpace($backendUrl)) {
@@ -94,7 +94,7 @@ Set-VercelEnv "AZURE_OPENAI_DEPLOYMENT" $AZURE_OPENAI_DEPLOYMENT
 Set-VercelEnv "AZURE_OPENAI_API_VERSION" $AZURE_OPENAI_API_VERSION
 
 Write-Host "Step 6: Redeploy backend with env vars..."
-$backendOutput2 = vercel --prod --yes --name $BackendName 2>&1
+$backendOutput2 = vercel --prod --yes 2>&1
 $backendOutput2 | Out-Host
 $backendUrl2 = ($backendOutput2 | Select-String "https://[a-zA-Z0-9\.\-]+").Matches.Value | Select-Object -Last 1
 if (-not [string]::IsNullOrWhiteSpace($backendUrl2)) {
@@ -108,7 +108,7 @@ Set-Content -Path ".env.production" -Value "VITE_API_URL=$backendUrl"
 Get-Content ".env.production" | Out-Host
 
 Write-Host "Step 8: Deploy frontend..."
-$frontendOutput = vercel --prod --yes --name $FrontendName 2>&1
+$frontendOutput = vercel --prod --yes 2>&1
 $frontendOutput | Out-Host
 $frontendUrl = ($frontendOutput | Select-String "https://[a-zA-Z0-9\.\-]+").Matches.Value | Select-Object -Last 1
 if ([string]::IsNullOrWhiteSpace($frontendUrl)) {
@@ -121,7 +121,7 @@ Set-Location "$root\backend"
 Set-VercelEnv "FRONTEND_URL" $frontendUrl
 
 Write-Host "Step 10: Final redeploy backend..."
-vercel --prod --yes --name $BackendName | Out-Host
+vercel --prod --yes | Out-Host
 
 Write-Host ""
 Write-Host "════════════════════════════════════"
