@@ -5,6 +5,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $PSNativeCommandUseErrorActionPreference = $false
+$VercelCli = "vercel.cmd"
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $root
 
@@ -42,7 +43,7 @@ function Set-VercelEnv {
   $tmp = New-TemporaryFile
   try {
     Set-Content -Path $tmp -Value $Value -NoNewline
-    Get-Content $tmp | vercel env add $Name production | Out-Host
+    Get-Content $tmp | & $VercelCli env add $Name production | Out-Host
   } finally {
     Remove-Item $tmp -ErrorAction SilentlyContinue
   }
@@ -64,7 +65,7 @@ Write-Host "Step 1: Ensure Vercel CLI installed..."
 npm install -g vercel | Out-Host
 
 Write-Host "Step 2: Vercel login (if required)..."
-vercel login | Out-Host
+& $VercelCli login | Out-Host
 
 Write-Host "Step 3: Push current repo state..."
 git init | Out-Host
@@ -76,8 +77,8 @@ git push -u origin main | Out-Host
 Write-Host "Step 4: Deploy backend..."
 Set-Location "$root\backend"
 Write-Host "Link backend project..."
-vercel link --yes | Out-Host
-$backendOutput = vercel --prod --yes 2>&1
+& $VercelCli link --yes | Out-Host
+$backendOutput = & $VercelCli --prod --yes 2>&1
 $backendOutput | Out-Host
 $backendUrl = ($backendOutput | Select-String "https://[a-zA-Z0-9\.\-]+").Matches.Value | Select-Object -Last 1
 if ([string]::IsNullOrWhiteSpace($backendUrl)) {
@@ -97,7 +98,7 @@ Set-VercelEnv "AZURE_OPENAI_DEPLOYMENT" $AZURE_OPENAI_DEPLOYMENT
 Set-VercelEnv "AZURE_OPENAI_API_VERSION" $AZURE_OPENAI_API_VERSION
 
 Write-Host "Step 6: Redeploy backend with env vars..."
-$backendOutput2 = vercel --prod --yes 2>&1
+$backendOutput2 = & $VercelCli --prod --yes 2>&1
 $backendOutput2 | Out-Host
 $backendUrl2 = ($backendOutput2 | Select-String "https://[a-zA-Z0-9\.\-]+").Matches.Value | Select-Object -Last 1
 if (-not [string]::IsNullOrWhiteSpace($backendUrl2)) {
@@ -112,8 +113,8 @@ Get-Content ".env.production" | Out-Host
 
 Write-Host "Step 8: Deploy frontend..."
 Write-Host "Link frontend project..."
-vercel link --yes | Out-Host
-$frontendOutput = vercel --prod --yes 2>&1
+& $VercelCli link --yes | Out-Host
+$frontendOutput = & $VercelCli --prod --yes 2>&1
 $frontendOutput | Out-Host
 $frontendUrl = ($frontendOutput | Select-String "https://[a-zA-Z0-9\.\-]+").Matches.Value | Select-Object -Last 1
 if ([string]::IsNullOrWhiteSpace($frontendUrl)) {
@@ -126,7 +127,7 @@ Set-Location "$root\backend"
 Set-VercelEnv "FRONTEND_URL" $frontendUrl
 
 Write-Host "Step 10: Final redeploy backend..."
-vercel --prod --yes | Out-Host
+& $VercelCli --prod --yes | Out-Host
 
 Write-Host ""
 Write-Host "════════════════════════════════════"
